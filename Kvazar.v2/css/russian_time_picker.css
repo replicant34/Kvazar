@@ -1,0 +1,204 @@
+/* Russian Time Picker Styles */
+.time-picker-modal,
+.date-picker-modal {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Prevent body shift when modals open */
+body.modal-open {
+    overflow: hidden;
+    padding-right: 0 !important;
+}
+
+/* Ensure stable layout */
+.wrapper {
+    overflow-x: hidden;
+}
+
+#content {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.form-container {
+    position: relative;
+    overflow-x: hidden;
+}
+
+.time-picker-content,
+.date-picker-content {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hour-btn:hover,
+.minute-btn:hover {
+    background: #ecf0f1 !important;
+    border-color: #3498db !important;
+    transform: translateY(-1px);
+}
+
+.hour-btn:active,
+.minute-btn:active {
+    transform: translateY(0);
+}
+
+.btn-time-confirm:hover {
+    background: #27ae60 !important;
+    transform: translateY(-1px);
+}
+
+.btn-time-cancel:hover {
+    background: #7f8c8d !important;
+    transform: translateY(-1px);
+}
+
+.time-picker-icon:hover,
+.date-picker-icon:hover {
+    color: #3498db !important;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Russian Calendar Support */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 5px;
+    opacity: 0.6;
+    filter: invert(0.8);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Time input styling */
+.time-input {
+    padding-right: 35px !important;
+}
+
+/* Date input styling */
+input[type="date"] {
+    padding-right: 35px !important;
+}
+
+.point-time-container,
+.point-date-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Ensure icons don't affect input field size */
+.date-picker-icon,
+.time-picker-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px !important;
+}
+
+/* Russian Date Picker Styles */
+.calendar-grid {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    background: #fafafa;
+}
+
+.day-cell {
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-btn:hover {
+    background: #2980b9 !important;
+    transform: translateY(-1px);
+}
+
+.btn-apply:hover {
+    background: #27ae60 !important;
+    transform: translateY(-1px);
+}
+
+.btn-date-cancel:hover {
+    background: #7f8c8d !important;
+    transform: translateY(-1px);
+}
+
+/* Russian month names - browser support */
+input[type="date"] {
+    text-transform: none;
+}
+
+/* Better minute button alignment */
+.minute-buttons {
+    align-content: start;
+}
+
+.minute-btn {
+    justify-self: center;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 480px) {
+    .time-picker-content {
+        margin: 5% auto;
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .time-selectors {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .hour-buttons {
+        grid-template-columns: repeat(6, 1fr);
+        max-height: 150px;
+    }
+    
+    .minute-buttons {
+        grid-template-columns: repeat(2, 1fr);
+        max-height: 150px;
+        gap: 10px;
+    }
+    
+    .hour-btn,
+    .minute-btn {
+        padding: 10px 5px;
+        font-size: 14px;
+    }
+}
+
+/* Focus states */
+.time-input:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+/* Error states */
+.time-input.error {
+    border-color: #e74c3c;
+    background-color: #fdf2f2;
+}
+
+.time-input.error + .time-picker-icon {
+    color: #e74c3c;
+} 

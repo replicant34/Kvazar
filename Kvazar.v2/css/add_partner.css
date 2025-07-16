@@ -1,0 +1,473 @@
+.form-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0.5rem auto;
+}
+
+.form-header {
+    margin-bottom: 0.8rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 0.6rem;
+}
+
+.form-header h1 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+.form-header h1:after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(to right, #3498db, #2ecc71);
+    border-radius: 2px;
+}
+
+/* Optional: Add animation when the form loads */
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.form-header h1 {
+    animation: slideDown 0.5s ease-out forwards;
+}
+
+/* More compact form groups */
+.form-group {
+    margin-bottom: 0.6rem;
+    text-align: left;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.2rem;
+    color: #2c3e50;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Compact submit button */
+.btn-submit {
+    width: 100%;
+    padding: 0.5rem;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 0.6rem;
+}
+
+.btn-submit:hover {
+    background: #3498db;
+}
+
+.error-message,
+.success-message {
+    color: #e74c3c;
+    margin-bottom: 0.8rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.success-message {
+    color: #2ecc71;
+}
+
+.form-text {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.75em;
+    color: #6c757d;
+}
+
+/* Compact generate password button */
+.btn-generate-password {
+    margin-top: 4px;
+    padding: 4px 8px;
+    background-color: #fff;
+    color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+    width: auto;
+    min-width: 120px;
+}
+
+.btn-generate-password:hover {
+    background-color: #3498db;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+}
+
+.btn-generate-password:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+}
+
+/* Add space between buttons in the same form group */
+.form-group button {
+    margin-right: 8px;
+}
+
+.form-group button:last-child {
+    margin-right: 0;
+}
+
+/* Add space between input and button */
+#password, #login {
+    margin-bottom: 6px;
+}
+
+/* Optional: Add a subtle animation when the button is clicked */
+.btn-generate-password.clicked {
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.98); }
+    100% { transform: scale(1); }
+}
+
+/* Compact select styles */
+.form-group select {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    background-color: #fff;
+    color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+    background-size: 0.8em;
+    padding-right: 2rem;
+}
+
+.form-group select:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+}
+
+/* Style for the select options */
+.form-group select option {
+    background-color: #fff;
+    color: #2c3e50;
+    padding: 8px;
+}
+
+/* Style for disabled select */
+.form-group select:disabled {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+    color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Remove focus outline for Firefox */
+.form-group select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #3498db;
+}
+
+/* Compact skip ID button styles */
+.skip-button-container {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.skip-button {
+    padding: 4px 8px;
+    background-color: #fff;
+    color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+    min-width: 100px;
+}
+
+.skip-button.active {
+    background-color: #3498db;
+    color: white;
+}
+
+.skip-button:hover {
+    background-color: #3498db;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+}
+
+.skip-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+}
+
+/* Alert styles */
+.alert {
+    padding: 0.6rem;
+    margin-bottom: 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.alert-danger {
+    background-color: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    color: #e74c3c;
+}
+
+.alert-success {
+    background-color: rgba(46, 204, 113, 0.1);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    color: #2ecc71;
+}
+
+/* Compact form layout */
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.form-column {
+    flex: 1;
+}
+
+.column-header {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid #3498db;
+}
+
+.form-column .form-group {
+    margin-bottom: 0.5rem;
+}
+
+/* Partner Type Selector - More compact */
+.partner-type-selector {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.partner-type-selector label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.partner-type-selector select {
+    width: 100%;
+    max-width: 250px;
+    padding: 0.6rem 0.8rem;
+    background-color: #fff;
+    color: #3498db;
+    border: 2px solid #3498db;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(52, 152, 219, 0.15);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 1em;
+    padding-right: 2.2rem;
+}
+
+.partner-type-selector select:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.25);
+}
+
+.partner-type-selector select:focus {
+    outline: none;
+    border-color: #2ecc71;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.25);
+}
+
+.partner-type-selector select option {
+    background-color: #fff;
+    color: #2c3e50;
+    padding: 0.4rem;
+}
+
+.partner-type-selector select option:checked {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.partner-type-selector select.clicked {
+    animation: pulse 0.3s ease;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .form-container {
+        padding: 0.8rem;
+        margin: 0.3rem;
+    }
+    
+    .column-header {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-group {
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-group label {
+        font-size: 0.85rem;
+    }
+    
+    .form-group input,
+    .form-group select {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .partner-type-selector select {
+        max-width: 100%;
+        padding: 0.5rem 0.7rem;
+        font-size: 0.85rem;
+    }
+    
+    .btn-submit {
+        padding: 0.45rem;
+        font-size: 0.9rem;
+    }
+    
+    .form-header h1 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .form-container {
+        padding: 0.6rem;
+        margin: 0.2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 0.4rem;
+    }
+    
+    .form-group label {
+        font-size: 0.8rem;
+        margin-bottom: 0.15rem;
+    }
+    
+    .form-group input,
+    .form-group select {
+        padding: 0.3rem 0.4rem;
+        font-size: 0.8rem;
+    }
+    
+    .column-header {
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .form-header h1 {
+        font-size: 1.2rem;
+    }
+    
+    .partner-type-selector label {
+        font-size: 0.9rem;
+    }
+    
+    .partner-type-selector select {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+    }
+} 
