@@ -1689,17 +1689,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Simple notification function
-function showNotification(message, type = 'info') {
-    // Simple alert for now - can be enhanced with a proper notification system
-    if (type === 'error') {
-        alert('❌ ' + message);
-    } else if (type === 'success') {
-        alert('✅ ' + message);
-    } else {
-        alert('ℹ️ ' + message);
-    }
-}
+// Old showNotification function removed - using enhanced version below
 
 // Send Form to Courier Functions
 function showSendFormModal() {
@@ -1921,4 +1911,337 @@ window.closeEditModal = closeEditModal;
 window.showAddCourierModal = showAddCourierModal;
 window.closeAddCourierModal = closeAddCourierModal;
 window.showSendFormModal = showSendFormModal;
-window.closeSendFormModal = closeSendFormModal; 
+window.closeSendFormModal = closeSendFormModal;
+
+// Document generation functions
+function generateClientConductorDocument(action = 'view') {
+    const orderId = window.orderId;
+    
+    if (!orderId) {
+        showNotification('Ошибка: ID заказа не найден', 'error');
+        return;
+    }
+    
+    if (action === 'view') {
+        showDocumentPreview('client_conductor', orderId);
+    } else if (action === 'download') {
+        downloadDocument('client_conductor', orderId, 'pdf');
+    }
+}
+
+function generateConductorCourierDocument(action = 'view') {
+    const orderId = window.orderId;
+    
+    if (!orderId) {
+        showNotification('Ошибка: ID заказа не найден', 'error');
+        return;
+    }
+    
+    if (action === 'view') {
+        showDocumentPreview('conductor_courier', orderId);
+    } else if (action === 'download') {
+        downloadDocument('conductor_courier', orderId, 'pdf');
+    }
+}
+
+function showDocumentPreview(documentType, orderId) {
+    const modal = document.getElementById('documentPreviewModal');
+    const title = document.getElementById('documentPreviewTitle');
+    const loading = document.getElementById('documentPreviewLoading');
+    const frame = document.getElementById('documentPreviewFrame');
+    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+    const downloadWordBtn = document.getElementById('downloadWordBtn');
+    
+    // Set title based on document type
+    const documentTitles = {
+        'client_conductor': 'Договор Клиент-Экспедитор',
+        'conductor_courier': 'Договор Экспедитор-Перевозчик'
+    };
+    
+    const icons = {
+        'client_conductor': 'fas fa-file-contract',
+        'conductor_courier': 'fas fa-file-invoice'
+    };
+    
+    title.innerHTML = `<i class="${icons[documentType]}"></i> ${documentTitles[documentType]}`;
+    
+    // Set up download buttons
+    const baseUrl = documentType === 'client_conductor' 
+        ? '../assets/generate_client_conductor_document.php'
+        : '../assets/generate_conductor_courier_document.php';
+    
+    downloadPdfBtn.href = `${baseUrl}?order_id=${orderId}&action=download&format=pdf`;
+    downloadWordBtn.href = `${baseUrl}?order_id=${orderId}&action=download&format=word`;
+    
+    // Set up download button click handlers
+    downloadPdfBtn.onclick = function(e) {
+        e.preventDefault();
+        
+        if (documentType === 'conductor_courier') {
+            // Check if iframe contains contract selection page
+            try {
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                const contractSelection = frameDoc.querySelector('.contract-item.selected');
+                
+                let contractParam = '';
+                if (contractSelection) {
+                    contractParam = '&contract_id=' + contractSelection.dataset.contractId;
+                }
+                
+                const downloadUrl = `${baseUrl}?order_id=${orderId}&action=download&format=pdf${contractParam}`;
+                downloadDocument(documentType, orderId, 'pdf', downloadUrl);
+            } catch (e) {
+                // If can't access iframe content (different origin or not loaded), use default
+                downloadDocument(documentType, orderId, 'pdf');
+            }
+        } else {
+            downloadDocument(documentType, orderId, 'pdf');
+        }
+    };
+    
+    downloadWordBtn.onclick = function(e) {
+        e.preventDefault();
+        
+        if (documentType === 'conductor_courier') {
+            // Check if iframe contains contract selection page
+            try {
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                const contractSelection = frameDoc.querySelector('.contract-item.selected');
+                
+                let contractParam = '';
+                if (contractSelection) {
+                    contractParam = '&contract_id=' + contractSelection.dataset.contractId;
+                }
+                
+                const downloadUrl = `${baseUrl}?order_id=${orderId}&action=download&format=word${contractParam}`;
+                downloadDocument(documentType, orderId, 'word', downloadUrl);
+            } catch (e) {
+                // If can't access iframe content (different origin or not loaded), use default
+                downloadDocument(documentType, orderId, 'word');
+            }
+        } else {
+            downloadDocument(documentType, orderId, 'word');
+        }
+    };
+    
+    // Show modal and loading
+    modal.style.display = 'block';
+    loading.style.display = 'flex';
+    frame.style.display = 'none';
+    
+    // Load document in iframe
+    const viewUrl = `${baseUrl}?order_id=${orderId}&action=view`;
+    frame.src = viewUrl;
+    
+    // Handle iframe load
+    frame.onload = function() {
+        loading.style.display = 'none';
+        frame.style.display = 'block';
+    };
+    
+    // Handle iframe error
+    frame.onerror = function() {
+        loading.innerHTML = `
+            <i class="fas fa-exclamation-triangle" style="color: #e74c3c; font-size: 24px;"></i>
+            <div class="document-preview-loading-text" style="color: #e74c3c;">
+                Ошибка загрузки документа
+            </div>
+        `;
+    };
+}
+
+function downloadDocument(documentType, orderId, format, downloadUrl) {
+    // Show loading notification that auto-closes
+    const loadingNotification = showNotification('Подготовка документа к скачиванию...', 'info', 2000);
+    
+    // Use provided URL or construct default URL
+    let finalDownloadUrl;
+    if (downloadUrl) {
+        finalDownloadUrl = downloadUrl;
+    } else {
+        const baseUrl = documentType === 'client_conductor' 
+            ? '../assets/generate_client_conductor_document.php'
+            : '../assets/generate_conductor_courier_document.php';
+        finalDownloadUrl = `${baseUrl}?order_id=${orderId}&action=download&format=${format}`;
+    }
+    
+    if (format === 'pdf') {
+        // For PDF, open in new window to trigger browser's print dialog
+        const pdfWindow = window.open(finalDownloadUrl, '_blank');
+        showNotification('Документ открыт в новом окне для печати в PDF', 'success', 3000);
+    } else {
+        // For Word, direct download
+        const link = document.createElement('a');
+        link.href = finalDownloadUrl;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Show success notification after a short delay
+        setTimeout(() => {
+            showNotification('Документ готов к скачиванию', 'success', 3000);
+        }, 1000);
+    }
+}
+
+function closeDocumentPreview() {
+    const modal = document.getElementById('documentPreviewModal');
+    const frame = document.getElementById('documentPreviewFrame');
+    const loading = document.getElementById('documentPreviewLoading');
+    
+    modal.style.display = 'none';
+    frame.src = '';
+    loading.style.display = 'flex';
+    frame.style.display = 'none';
+}
+
+// Enhanced notification function with auto-close
+function showNotification(message, type = 'info', duration = 5000) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas ${getNotificationIcon(type)}"></i>
+            <span>${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    // Style the notification
+    Object.assign(notification.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        padding: '15px 20px',
+        borderRadius: '8px',
+        color: 'white',
+        fontSize: '14px',
+        fontWeight: '500',
+        zIndex: '10001',
+        maxWidth: '400px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+        animation: 'slideInRight 0.3s ease',
+        backgroundColor: getNotificationColor(type),
+        cursor: 'pointer'
+    });
+    
+    // Add close button styles
+    const closeBtn = notification.querySelector('.notification-close');
+    if (closeBtn) {
+        Object.assign(closeBtn.style, {
+            background: 'none',
+            border: 'none',
+            color: 'white',
+            cursor: 'pointer',
+            marginLeft: '10px',
+            padding: '0',
+            fontSize: '12px',
+            opacity: '0.8'
+        });
+        
+        closeBtn.addEventListener('mouseenter', () => closeBtn.style.opacity = '1');
+        closeBtn.addEventListener('mouseleave', () => closeBtn.style.opacity = '0.8');
+    }
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Auto remove after specified duration
+    const timeoutId = setTimeout(() => {
+        if (notification.parentNode) {
+            notification.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+    }, duration);
+    
+    // Allow manual close to cancel auto-close
+    notification.addEventListener('click', () => {
+        clearTimeout(timeoutId);
+        if (notification.parentNode) {
+            notification.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }
+    });
+    
+    // Add CSS animations if not already present
+    if (!document.getElementById('notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            .notification-content {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .notification-close {
+                margin-left: auto;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    return notification;
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('documentPreviewModal');
+    if (event.target === modal) {
+        closeDocumentPreview();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const modal = document.getElementById('documentPreviewModal');
+        if (modal && modal.style.display === 'block') {
+            closeDocumentPreview();
+        }
+    }
+});
+
+// Make document functions globally available
+window.generateClientConductorDocument = generateClientConductorDocument;
+window.generateConductorCourierDocument = generateConductorCourierDocument;
+window.closeDocumentPreview = closeDocumentPreview;
+
+function getNotificationIcon(type) {
+    const icons = {
+        'success': 'fa-check-circle',
+        'error': 'fa-exclamation-circle',
+        'warning': 'fa-exclamation-triangle',
+        'info': 'fa-info-circle'
+    };
+    return icons[type] || icons['info'];
+}
+
+function getNotificationColor(type) {
+    const colors = {
+        'success': '#27ae60',
+        'error': '#e74c3c',
+        'warning': '#f39c12',
+        'info': '#3498db'
+    };
+    return colors[type] || colors['info'];
+}

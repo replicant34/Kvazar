@@ -193,8 +193,8 @@
 }
 
 .total-amount {
-    color: #28a745 !important;
-    font-size: 18px !important;
+    color: inherit;
+    font-size: inherit;
 }
 
 /* Tabs */
@@ -1075,6 +1075,209 @@
 .download-group {
     display: flex;
     gap: 8px;
+}
+
+.document-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.document-download-group {
+    display: flex;
+    gap: 5px;
+    margin-left: 8px;
+}
+
+.btn-document-client {
+    background: linear-gradient(135deg, #3498db, #2980b9) !important;
+}
+
+.btn-document-client:hover {
+    background: linear-gradient(135deg, #2980b9, #1c5980) !important;
+}
+
+.btn-document-courier {
+    background: linear-gradient(135deg, #e67e22, #d35400) !important;
+}
+
+.btn-document-courier:hover {
+    background: linear-gradient(135deg, #d35400, #a04000) !important;
+}
+
+.btn-download-client,
+.btn-download-courier {
+    padding: 8px 10px !important;
+    min-width: 36px;
+    background: rgba(255, 255, 255, 0.15) !important;
+    font-size: 12px;
+}
+
+.btn-download-client:hover,
+.btn-download-courier:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Document Preview Modal */
+.document-preview-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.document-preview-content {
+    position: relative;
+    background-color: #fff;
+    margin: 2% auto;
+    width: 95%;
+    height: 95%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.document-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px 12px 0 0;
+}
+
+.document-preview-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.document-preview-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.document-preview-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.document-preview-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.document-download-btn {
+    padding: 8px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.document-download-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+}
+
+.document-download-btn i {
+    font-size: 12px;
+}
+
+.document-preview-frame {
+    flex: 1;
+    border: none;
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Loading state for document preview */
+.document-preview-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: #f8f9fa;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.document-preview-loading .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e3e3e3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.document-preview-loading-text {
+    color: #666;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .document-preview-content {
+        margin: 1% auto;
+        width: 98%;
+        height: 98%;
+    }
+    
+    .document-preview-header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .document-preview-actions {
+        align-self: flex-end;
+    }
+    
+    .document-download-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
 }
 
 .btn-download {

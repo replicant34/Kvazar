@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/db_connect.php';
+require_once 'order_logging.php';
 
 // Check authorization
 if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'ceo', 'operator'])) {
@@ -118,6 +119,9 @@ try {
     
     // Generate filename with timestamp
     $filename = 'orders_export_' . date('Y-m-d_H-i-s') . '.csv';
+    
+    // Log export operation
+    logExportOperation($pdo, 'csv', count($orders), $_GET);
     
     // Set headers for CSV download
     header('Content-Type: text/csv; charset=utf-8');

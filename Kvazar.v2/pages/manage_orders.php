@@ -1,12 +1,16 @@
 <?php
 session_start();
 require_once '../config/db_connect.php';
+require_once '../assets/order_logging.php';
 
 // Check authorization
 if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'ceo', 'operator'])) {
     header('Location: ../index.php');
     exit();
 }
+
+// Log page access
+logOrderPageAccess($pdo, 'manage_orders');
 
 $userRole = $_SESSION['role'];
 ?>

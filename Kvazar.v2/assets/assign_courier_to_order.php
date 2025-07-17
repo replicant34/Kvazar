@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/db_connect.php';
+require_once 'order_logging.php';
 
 header('Content-Type: application/json');
 
@@ -115,6 +116,9 @@ try {
     
     // Commit transaction
     $pdo->commit();
+    
+    // Log courier assignment
+    logCourierAssign($pdo, $orderId, $courierId);
     
     echo json_encode([
         'success' => true,

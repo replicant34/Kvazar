@@ -11,7 +11,4 @@ if (!isset($page_title)) {
             <i class="fas fa-bars"></i>
         </button>
     </div>
-    <div class="navbar-brand">
-        <h4><?php echo htmlspecialchars($page_title); ?></h4>
-    </div>
 </nav> 

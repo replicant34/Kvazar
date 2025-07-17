@@ -5,12 +5,16 @@ error_reporting(E_ALL);
 session_start();
 require_once __DIR__ . '/../config/db_connect.php';
 require_once __DIR__ . '/../assets/add_order_form_helper.php';
+require_once __DIR__ . '/../assets/order_logging.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
     exit();
 }
+
+// Log page access
+logOrderPageAccess($pdo, 'add_order');
 
 $userRole = $_SESSION['role'];
 $userId = $_SESSION['user_id'];

@@ -5,6 +5,7 @@ ob_start();
 session_start();
 require_once '../config/db_connect.php';
 require_once 'generate_order_pdf.php';
+require_once 'order_logging.php';
 
 // Clear any buffered output before sending JSON
 ob_clean();
@@ -392,6 +393,9 @@ try {
     
     // Commit transaction
     $pdo->commit();
+    
+    // Log order creation
+    logOrderCreate($pdo, $orderId, ['client_id' => $_POST['client_id'] ?? null]);
     
     // After successful order creation, generate PDF
     try {

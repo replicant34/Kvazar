@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/db_connect.php';
+require_once '../assets/order_logging.php';
 
 // Check authorization
 if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'ceo', 'operator'])) {
@@ -15,6 +16,9 @@ if (!$orderId) {
     header('Location: manage_orders.php');
     exit();
 }
+
+// Log page access
+logOrderPageAccess($pdo, 'order_detail', ['order_id' => $orderId]);
 
 // Get order data
 try {
@@ -60,6 +64,18 @@ try {
     if (!$order) {
         header('Location: manage_orders.php');
         exit();
+    }
+    
+    // Check if courier and driver are assigned
+    $hasAssignedDriver = false;
+    if (!empty($order['Courier_id'])) {
+        $driverCheckStmt = $pdo->prepare("
+            SELECT COUNT(*) 
+            FROM Drivers_list dl 
+            WHERE dl.Order_id = ?
+        ");
+        $driverCheckStmt->execute([$orderId]);
+        $hasAssignedDriver = $driverCheckStmt->fetchColumn() > 0;
     }
     
 } catch (Exception $e) {
@@ -132,6 +148,16 @@ try {
                                     <i class="fas fa-file-word"></i> Word
                                 </button>
                             </div>
+                            <?php if (!empty($order['Courier_id']) && $hasAssignedDriver): ?>
+                            <div class="document-group">
+                                <button class="btn-action btn-document-client" onclick="generateClientConductorDocument('view')">
+                                    <i class="fas fa-file-contract"></i> Клиент-Экспедитор
+                                </button>
+                                <button class="btn-action btn-document-courier" onclick="generateConductorCourierDocument('view')">
+                                    <i class="fas fa-file-invoice"></i> Экспедитор-Перевозчик
+                                </button>
+                            </div>
+                            <?php endif; ?>
                         </div>
                         <a href="manage_orders.php" class="btn-back">
                             <i class="fas fa-arrow-left"></i> Назад
@@ -391,6 +417,34 @@ try {
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Document Preview Modal -->
+    <div id="documentPreviewModal" class="document-preview-modal">
+        <div class="document-preview-content">
+            <div class="document-preview-header">
+                <h3 class="document-preview-title" id="documentPreviewTitle">
+                    <i class="fas fa-file-contract"></i>
+                    Предварительный просмотр документа
+                </h3>
+                <div class="document-preview-actions">
+                    <a href="#" class="document-download-btn" id="downloadPdfBtn" title="Скачать PDF">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </a>
+                    <a href="#" class="document-download-btn" id="downloadWordBtn" title="Скачать Word">
+                        <i class="fas fa-file-word"></i> Word
+                    </a>
+                    <button class="document-preview-close" onclick="closeDocumentPreview()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="documentPreviewLoading" class="document-preview-loading">
+                <div class="spinner"></div>
+                <div class="document-preview-loading-text">Загрузка документа...</div>
+            </div>
+            <iframe id="documentPreviewFrame" class="document-preview-frame" style="display: none;"></iframe>
         </div>
     </div>
 

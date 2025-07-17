@@ -94,6 +94,13 @@
                     </li>
                 </ul>
             </li>
+
+            <li>
+                <a href="/Kvazar.v2/pages/manage_lists.php">
+                    <i class="fas fa-list"></i>
+                    <span>Управление списками</span>
+                </a>
+            </li>
         </ul>
     </div>
 

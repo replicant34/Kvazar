@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/db_connect.php';
+require_once 'order_logging.php';
 
 header('Content-Type: application/json');
 
@@ -98,11 +99,12 @@ try {
     // Commit transaction
     $pdo->commit();
     
+    // Log status change
+    logStatusChange($pdo, $orderId, $orderInfo['current_status_id'], $newStatusId, $reason);
+    
     echo json_encode([
         'success' => true,
-        'message' => 'Status updated successfully',
-        'previous_status' => $orderInfo['current_status_name'],
-        'new_status' => $newStatusInfo['Status_name']
+        'message' => 'Order status updated successfully'
     ]);
     
 } catch (Exception $e) {

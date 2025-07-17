@@ -256,7 +256,8 @@ function showSuccessPage($linkData, $submissionData) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Назначение выполнено - Kvazar Logistics</title>
-        <link rel="stylesheet" href="css/courier_form.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="../css/courier_form.css">
     </head>
     <body>
         <div class="container success-page">
@@ -293,104 +294,6 @@ function showSuccessPage($linkData, $submissionData) {
                 <p>При необходимости внесения изменений обратитесь к оператору.</p>
                 
                 <p><small>Данная ссылка больше не действительна.</small></p>
-            </div>
-        </div>
-    </body>
-    </html>
-    <?php
-}
-
-function showErrorPage($title, $message) {
-    ?>
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title><?= htmlspecialchars($title) ?> - Kvazar Logistics</title>
-        <link rel="stylesheet" href="css/courier_form.css">
-    </head>
-    <body>
-        <div class="container error-page">
-            <div class="error-content">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h1><?= htmlspecialchars($title) ?></h1>
-                <p><?= htmlspecialchars($message) ?></p>
-                <p><small>Если вы считаете, что это ошибка, обратитесь к оператору.</small></p>
-            </div>
-        </div>
-    </body>
-    </html>
-    <?php
-}
-
-function showExpiredPage() {
-    ?>
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ссылка истекла - Kvazar Logistics</title>
-        <link rel="stylesheet" href="css/courier_form.css">
-    </head>
-    <body>
-        <div class="container error-page">
-            <div class="error-content">
-                <i class="fas fa-clock"></i>
-                <h1>Срок действия ссылки истек</h1>
-                <p>Ссылка для назначения водителя и транспорта больше не действительна.</p>
-                <p>Ссылка действует только 24 часа с момента создания.</p>
-                <p><small>Обратитесь к оператору для получения новой ссылки.</small></p>
-            </div>
-        </div>
-    </body>
-    </html>
-    <?php
-}
-
-function showUsedPage() {
-    ?>
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ссылка уже использована - Kvazar Logistics</title>
-        <link rel="stylesheet" href="css/courier_form.css">
-    </head>
-    <body>
-        <div class="container error-page">
-            <div class="error-content">
-                <i class="fas fa-check-circle"></i>
-                <h1>Ссылка уже использована</h1>
-                <p>Назначение водителя и транспорта уже было выполнено.</p>
-                <p>Каждая ссылка может быть использована только один раз.</p>
-                <p><small>Если требуются изменения, обратитесь к оператору.</small></p>
-            </div>
-        </div>
-    </body>
-    </html>
-    <?php
-}
-
-function showAlreadyAssignedPage() {
-    ?>
-    <!DOCTYPE html>
-    <html lang="ru">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Перевозчик уже назначен - Kvazar Logistics</title>
-        <link rel="stylesheet" href="css/courier_form.css">
-    </head>
-    <body>
-        <div class="container error-page">
-            <div class="error-content">
-                <i class="fas fa-info-circle"></i>
-                <h1>Перевозчик уже назначен</h1>
-                <p>К данному заказу уже назначен перевозчик, водитель и транспорт.</p>
-                <p>Если что-то изменилось, пожалуйста, свяжитесь с нашим оператором.</p>
             </div>
         </div>
     </body>
